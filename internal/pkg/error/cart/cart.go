@@ -1,4 +1,4 @@
-package carterr
+package cart
 
 import "errors"
 
