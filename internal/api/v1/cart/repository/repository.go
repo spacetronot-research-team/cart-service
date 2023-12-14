@@ -1,15 +1,15 @@
 package repository
 
 import (
+	"context"
 	"errors"
 
-	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 type ICartRepository interface {
-	Foo(ctx *gin.Context) (string, error)
-	Bar(ctx *gin.Context, isShouldError string) (string, error)
+	Foo(ctx context.Context) (string, error)
+	Bar(ctx context.Context, isShouldError string) (string, error)
 }
 
 type cartRepository struct {
@@ -20,7 +20,7 @@ func NewCartRepository(db *gorm.DB) ICartRepository {
 	return &cartRepository{db: db}
 }
 
-func (c *cartRepository) Foo(ctx *gin.Context) (string, error) {
+func (c *cartRepository) Foo(ctx context.Context) (string, error) {
 	type Foo struct {
 		Name string `gorm:"name"`
 	}
@@ -32,7 +32,7 @@ func (c *cartRepository) Foo(ctx *gin.Context) (string, error) {
 	return foo.Name, nil
 }
 
-func (c *cartRepository) Bar(ctx *gin.Context, isShouldError string) (string, error) {
+func (c *cartRepository) Bar(ctx context.Context, isShouldError string) (string, error) {
 	if isShouldError == "true" {
 		return "", errors.New("dummy error from repository")
 	} else {
